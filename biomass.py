@@ -77,10 +77,10 @@ Cheah, W. Y., Siti-Dina, R. P., Leng, S. T. K., Er, A. C., & Show, P. L. (2023).
 st.write("---")
 st.markdown("""
 
-Developed by:
-- Mohd Rafizan Samian
-- Jabatan Perancangan Strategik dan Transformasi
-- FELDA
+**Developed by**:
+Mohd Rafizan Samian
+Jabatan Perancangan Strategik dan Transformasi
+FELDA
 
 """)
 
