@@ -2,10 +2,10 @@ import streamlit as st
 
 # Biomass generation ratios (in percentage of FFB weight)
 BIOMASS_RATIOS = {
-    'Empty Fruit Bunches (EFB)': 0.23,    # 23% of FFB
-    'Palm Kernel Shell (PKS)': 0.06,      # 6% of FFB
-    'Mesocarp Fibre': 0.13,               # 13% of FFB
-    'Palm Oil Mill Effluent (POME)': 0.25 # 25% of FFB
+    'Empty Fruit Bunches (EFB)': 0.22,    # 22% of FFB
+    'Palm Kernel Shell (PKS)': 0.055,      # 5.5% of FFB
+    'Mesocarp Fibre': 0.135,               # 13% of FFB
+    'Palm Oil Mill Effluent (POME)': 0.67 # 67% of FFB
 }
 
 # Function to calculate biomass
