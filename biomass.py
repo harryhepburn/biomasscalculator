@@ -68,6 +68,22 @@ st.markdown("""
 - **Oil Palm Trunk (OPT):** The trunk of the palm, commonly used as a source of biomass for energy or as a raw material in wood-based industries.
 """)
 
+st.write("---")
+st.markdown("""
+**References**:
+Cheah, W. Y., Siti-Dina, R. P., Leng, S. T. K., Er, A. C., & Show, P. L. (2023). Circular bioeconomy in palm oil industry: Current practices and future perspectives. Environmental Technology & Innovation, 30, 103050. https://doi.org/10.1016/j.eti.2023.103050
+""")
+
+st.write("---")
+st.markdown("""
+
+Developed by:
+- Mohd Rafizan Samian
+- Jabatan Perancangan Strategik dan Transformasi
+- FELDA
+
+""")
+
 # Optional Footer Information
 st.sidebar.title("About the App")
 st.sidebar.info("""
