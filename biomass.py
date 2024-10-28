@@ -54,8 +54,8 @@ if plantation_area_ha > 0:
     trunk_biomass = plantation_area_ha * TRUNK_MT_PER_HA
     
     st.write(f"### Biomass Produced from Plantation Area of {plantation_area_ha} ha:")
-    st.write(f"**Oil Palm Frond:** {frond_biomass:.2f} MT")
-    st.write(f"**Oil Palm Trunk:** {trunk_biomass:.2f} MT")
+    st.write(f"**Oil Palm Frond (OPF):** {frond_biomass:.2f} MT")
+    st.write(f"**Oil Palm Trunk (OPT):** {trunk_biomass:.2f} MT")
 
 st.write("---")
 st.markdown("""
@@ -64,6 +64,8 @@ st.markdown("""
 - **Palm Kernel Shell (PKS):** Shell fragments from palm kernels.
 - **Mesocarp Fibre:** Fibrous residue from the palm fruit.
 - **Palm Oil Mill Effluent (POME):** Liquid waste by-product from palm oil mills.
+- **Oil Palm Frond (OPF):** The leaves of the palm, often used as animal feed or compost.
+- **Oil Palm Trunk (OPT):** The trunk of the palm, commonly used as a source of biomass for energy or as a raw material in wood-based industries.
 """)
 
 # Optional Footer Information
