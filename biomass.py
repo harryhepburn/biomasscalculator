@@ -28,7 +28,7 @@ Enter the amount of FFB in metric tons (MT) and the app will calculate the proje
 """)
 
 # User input for FFB in MT
-ffb_mt = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', min_value=0.0, value=10.0)
+ffb_mt = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', min_value=0.0, value=100.0)
 
 # Biomass calculation
 if ffb_mt > 0:
@@ -46,7 +46,7 @@ st.markdown("""
 Enter the plantation area in hectares to estimate the amount of frond and trunk biomass produced.
 """)
 
-plantation_area_ha = st.number_input('Enter the plantation area in hectares (ha):', min_value=0.0, value=1.0)
+plantation_area_ha = st.number_input('Enter the plantation area in hectares (ha):', min_value=0.0, value=100.0)
 
 # Calculation of frond and trunk biomass based on plantation area
 if plantation_area_ha > 0:
