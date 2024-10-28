@@ -78,10 +78,7 @@ st.write("---")
 st.markdown("""
 
 **Developed by**:
-Mohd Rafizan Samian
-Jabatan Perancangan Strategik dan Transformasi
-FELDA
-
+Mohd Rafizan Samian, Jabatan Perancangan Strategik dan Transformasi, FELDA
 """)
 
 # Optional Footer Information
