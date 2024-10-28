@@ -71,8 +71,5 @@ st.markdown("""
 # Optional Footer Information
 st.sidebar.title("About the App")
 st.sidebar.info("""
-This app calculates the potential biomass produced from processing palm oil fresh fruit bunches (FFB).
-It also estimates the biomass from oil palm fronds and trunks based on plantation area in hectares.
-Biomass such as Empty Fruit Bunches (EFB), Palm Kernel Shell (PKS), Mesocarp Fibre, and Palm Oil Mill Effluent (POME) 
-are valuable by-products for energy generation and other applications.
+This app calculates the potential biomass produced from processing palm oil fresh fruit bunches (FFB) and estimates the additional biomass generated from oil palm fronds (OPF) and trunks (OPT) based on plantation area in hectares. Biomass by-products, such as Empty Fruit Bunches (EFB), Palm Kernel Shell (PKS), Mesocarp Fibre, Palm Oil Mill Effluent (POME), as well as OPF and OPT, play crucial roles in a circular economy. They contribute to sustainable energy production, soil enrichment, animal feed, and even wood-based materials, maximizing resource use and minimizing waste in the palm oil industry.
 """)
