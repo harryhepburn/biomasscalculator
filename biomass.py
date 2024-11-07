@@ -66,6 +66,7 @@ st.markdown("""
 - **Empty Fruit Bunches (EFB):** Residual bunches after oil extraction.
 - **Palm Kernel Shell (PKS):** Shell fragments from palm kernels.
 - **Mesocarp Fibre:** Fibrous residue from the palm fruit.
+- **Decanter Cake:** Solid waste produced from the three phase separation step of crude palm oil process.
 - **Palm Oil Mill Effluent (POME):** Liquid waste by-product from palm oil mills.
 - **Oil Palm Frond (OPF):** The leaves of the palm, often used as animal feed or compost.
 - **Oil Palm Trunk (OPT):** The trunk of the palm, commonly used as a source of biomass for energy or as a raw material in wood-based industries.
@@ -74,8 +75,8 @@ st.markdown("""
 st.write("---")
 st.markdown("""
 **References**:
-Cheah, W. Y., Siti-Dina, R. P., Leng, S. T. K., Er, A. C., & Show, P. L. (2023). Circular bioeconomy in palm oil industry: Current practices and future perspectives. Environmental Technology & Innovation, 30, 103050. https://doi.org/10.1016/j.eti.2023.103050
-Abioye, K. J., Harun, N. Y., Umar, H. A., & Kolawole, A. H. (2023). Study of Physicochemical Properties of Palm Oil Decanter Cake for Potential Syngas Generation. Chemical Engineering Transactions, 99, 709–714. https://doi.org/10.3303/CET2399119
+- Cheah, W. Y., Siti-Dina, R. P., Leng, S. T. K., Er, A. C., & Show, P. L. (2023). Circular bioeconomy in palm oil industry: Current practices and future perspectives. Environmental Technology & Innovation, 30, 103050. https://doi.org/10.1016/j.eti.2023.103050
+- Abioye, K. J., Harun, N. Y., Umar, H. A., & Kolawole, A. H. (2023). Study of Physicochemical Properties of Palm Oil Decanter Cake for Potential Syngas Generation. Chemical Engineering Transactions, 99, 709–714. https://doi.org/10.3303/CET2399119
 """)
 
 st.write("---")
