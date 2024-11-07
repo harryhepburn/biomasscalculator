@@ -22,6 +22,7 @@ def calculate_biomass(ffb_mt):
     return biomass
 
 # Streamlit App UI
+st.set_page_config(page_title="Biomass Calculator", page_icon="🌴", layout="wide")
 st.title("Palm Oil Biomass Calculator")
 
 st.markdown("""
