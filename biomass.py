@@ -5,7 +5,9 @@ BIOMASS_RATIOS = {
     'Empty Fruit Bunches (EFB)': 0.21,    # 21% of FFB
     'Palm Kernel Shell (PKS)': 0.055,     # 5.5% of FFB
     'Mesocarp Fibre': 0.144,              # 14.4% of FFB
+    'Decanter Cake': 0.035,               # 3.5% of FFB
     'Palm Oil Mill Effluent (POME)': 0.583 # 58.3% of FFB
+    
 }
 
 # Constants for frond and trunk production
@@ -72,13 +74,14 @@ st.write("---")
 st.markdown("""
 **References**:
 Cheah, W. Y., Siti-Dina, R. P., Leng, S. T. K., Er, A. C., & Show, P. L. (2023). Circular bioeconomy in palm oil industry: Current practices and future perspectives. Environmental Technology & Innovation, 30, 103050. https://doi.org/10.1016/j.eti.2023.103050
+Abioye, K. J., Harun, N. Y., Umar, H. A., & Kolawole, A. H. (2023). Study of Physicochemical Properties of Palm Oil Decanter Cake for Potential Syngas Generation. Chemical Engineering Transactions, 99, 709–714. https://doi.org/10.3303/CET2399119
 """)
 
 st.write("---")
 st.markdown("""
 
 **Developed by**:
-Mohd Rafizan Samian, Jabatan Perancangan Strategik dan Transformasi, FELDA
+Mohd Rafizan Samian, Jabatan Perancangan Strategi dan Transformasi, FELDA
 """)
 
 # Optional Footer Information
