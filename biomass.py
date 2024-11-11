@@ -31,7 +31,7 @@ Enter the amount of FFB in metric tons (MT) and the app will calculate the proje
 """)
 
 # User input for FFB in MT
-ffb_mt = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', min_value=0.0, value=100.0, step=0.01, format=%,.f)
+ffb_mt = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', min_value=0.0, value=100.0)
 
 # Biomass calculation
 if ffb_mt > 0:
