@@ -40,7 +40,7 @@ if ffb_mt > 0:
     
     # Display results
     for biomass_type, biomass_amount in biomass_results.items():
-        st.write(f"**{biomass_type}:** {biomass_amount:.2f,} MT")
+        st.write(f"**{biomass_type}:** {biomass_amount: ,.2f} MT")
 
 # User input for plantation area in hectares
 st.markdown("""
@@ -57,8 +57,8 @@ if plantation_area_ha > 0:
     trunk_biomass = plantation_area_ha * TRUNK_MT_PER_HA
     
     st.write(f"### Biomass Produced from Plantation Area of {plantation_area_ha} ha:")
-    st.write(f"**Oil Palm Frond (OPF):** {frond_biomass:.2f,} MT")
-    st.write(f"**Oil Palm Trunk (OPT):** {trunk_biomass:.2f,} MT")
+    st.write(f"**Oil Palm Frond (OPF):** {frond_biomass: ,.2f} MT")
+    st.write(f"**Oil Palm Trunk (OPT):** {trunk_biomass: ,.2f} MT")
 
 st.write("---")
 st.markdown("""
