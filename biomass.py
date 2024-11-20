@@ -186,7 +186,7 @@ st.markdown("""
 - **Mesocarp Fibre:** Fibrous residue from the palm fruit.
 - **Decanter Cake:** Solid waste produced from the three phase separation step of crude palm oil process.
 - **Palm Oil Mill Effluent (POME):** Liquid waste by-product from palm oil mills.
-- **Sludge palm oil (SPO): Liquid waste by-product from palm oil mills process that contains high levels of oil, dirt, and impurities. It is a low-grade oil that is solid or semi-solid at room temperature due to its high levels of free fatty acids and saturated fatty acids.
+- **Sludge palm oil (SPO):** Liquid waste by-product from palm oil mills process that contains high levels of oil, dirt, and impurities. It is a low-grade oil that is solid or semi-solid at room temperature due to its high levels of free fatty acids and saturated fatty acids.
 - **Oil Palm Frond (OPF):** The leaves of the palm, often used as animal feed or compost.
 - **Oil Palm Trunk (OPT):** The trunk of the palm, commonly used as a source of biomass for energy or as a raw material in wood-based industries.
 """)
