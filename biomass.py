@@ -10,8 +10,8 @@ DEFAULT_BIOMASS_RATIOS = {
 }
 
 # Constants for frond and trunk production
-FROND_MT_PER_HA = 14.47
-TRUNK_MT_PER_HA = 74.48
+DEFAULT_FROND_MT_PER_HA = 14.47
+DEFAULT_TRUNK_MT_PER_HA = 74.48
 
 # Function to calculate biomass with custom ratios
 def calculate_biomass(ffb_mt, biomass_ratios):
@@ -51,32 +51,62 @@ with tab1:
         for biomass_type, biomass_amount in biomass_results.items():
             st.write(f"**{biomass_type}:** {biomass_amount: ,.2f} MT")
 
+    # Default plantation area calculation
+    st.markdown("""
+    ---
+    ### Estimate Biomass from Plantation Area
+    Enter the plantation area in hectares to estimate the amount of frond and trunk biomass produced.
+    """)
+
+    plantation_area_ha_default = st.number_input('Enter the plantation area in hectares (ha):', 
+                                               min_value=0.0, value=100.0, key='area_default')
+
+    if plantation_area_ha_default > 0:
+        frond_biomass = plantation_area_ha_default * DEFAULT_FROND_MT_PER_HA
+        trunk_biomass = plantation_area_ha_default * DEFAULT_TRUNK_MT_PER_HA
+        
+        st.write(f"### Biomass Produced from Plantation Area of {plantation_area_ha_default} ha:")
+        st.write(f"**Oil Palm Frond (OPF):** {frond_biomass: ,.2f} MT")
+        st.write(f"**Oil Palm Trunk (OPT):** {trunk_biomass: ,.2f} MT")
+
 with tab2:
     st.markdown("""
     ### Customize biomass generation ratios
     Enter your own ratios for each biomass component (as percentages). The total should sum to 100%.
     """)
 
-    # Create a dictionary to store custom ratios
-    custom_ratios = {}
-    total_percentage = 0
+    # Create columns for better layout
+    col1, col2 = st.columns([2, 1])
 
-    # Input fields for custom ratios
-    for biomass_type in DEFAULT_BIOMASS_RATIOS.keys():
-        default_percentage = DEFAULT_BIOMASS_RATIOS[biomass_type] * 100
-        custom_percentage = st.number_input(
-            f"{biomass_type} (%)", 
-            min_value=0.0, 
-            max_value=100.0, 
-            value=default_percentage,
-            step=0.1,
-            key=f"custom_{biomass_type}"
-        )
-        custom_ratios[biomass_type] = custom_percentage / 100
-        total_percentage += custom_percentage
+    with col1:
+        # Create a dictionary to store custom ratios
+        custom_ratios = {}
+        total_percentage = 0
 
-    
-    
+        # Input fields for custom ratios
+        for biomass_type in DEFAULT_BIOMASS_RATIOS.keys():
+            default_percentage = DEFAULT_BIOMASS_RATIOS[biomass_type] * 100
+            custom_percentage = st.number_input(
+                f"{biomass_type} (%)", 
+                min_value=0.0, 
+                max_value=100.0, 
+                value=default_percentage,
+                step=0.1,
+                key=f"custom_{biomass_type}"
+            )
+            custom_ratios[biomass_type] = custom_percentage / 100
+            total_percentage += custom_percentage
+
+        # Display total percentage and warning if not 100%
+        st.write(f"**Total Percentage: {total_percentage:.1f}%**")
+        if abs(total_percentage - 100) > 0.1:  # Allow for small floating-point differences
+            st.warning("⚠️ The total percentage should be 100%")
+
+    with col2:
+        # Show the default values for reference
+        st.write("**Default Values (for reference):**")
+        for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
+            st.write(f"- {biomass_type}: {ratio*100:.1f}%")
     
     # User input for FFB in MT (Custom tab)
     ffb_mt_custom = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', 
@@ -91,22 +121,59 @@ with tab2:
         for biomass_type, biomass_amount in biomass_results.items():
             st.write(f"**{biomass_type}:** {biomass_amount: ,.2f} MT")
 
-# Rest of the code remains the same...
-st.markdown("""
----
-### Estimate Biomass from Plantation Area
-Enter the plantation area in hectares to estimate the amount of frond and trunk biomass produced.
-""")
+    # Custom plantation area calculation
+    st.markdown("""
+    ---
+    ### Customize Plantation Biomass Estimates
+    Enter your own values for frond and trunk biomass production per hectare.
+    """)
 
-plantation_area_ha = st.number_input('Enter the plantation area in hectares (ha):', min_value=0.0, value=100.0)
+    # Create columns for custom plantation inputs
+    col3, col4 = st.columns(2)
 
-if plantation_area_ha > 0:
-    frond_biomass = plantation_area_ha * FROND_MT_PER_HA
-    trunk_biomass = plantation_area_ha * TRUNK_MT_PER_HA
-    
-    st.write(f"### Biomass Produced from Plantation Area of {plantation_area_ha} ha:")
-    st.write(f"**Oil Palm Frond (OPF):** {frond_biomass: ,.2f} MT")
-    st.write(f"**Oil Palm Trunk (OPT):** {trunk_biomass: ,.2f} MT")
+    with col3:
+        custom_frond_mt_per_ha = st.number_input(
+            'Oil Palm Frond (OPF) production (MT/ha/year):',
+            min_value=0.0,
+            value=DEFAULT_FROND_MT_PER_HA,
+            step=0.01,
+            help=f"Default value is {DEFAULT_FROND_MT_PER_HA} MT/ha/year"
+        )
+
+        custom_trunk_mt_per_ha = st.number_input(
+            'Oil Palm Trunk (OPT) production (MT/ha/year):',
+            min_value=0.0,
+            value=DEFAULT_TRUNK_MT_PER_HA,
+            step=0.01,
+            help=f"Default value is {DEFAULT_TRUNK_MT_PER_HA} MT/ha/year"
+        )
+
+    with col4:
+        plantation_area_ha_custom = st.number_input(
+            'Plantation area (ha):',
+            min_value=0.0,
+            value=100.0,
+            key='area_custom'
+        )
+
+    if plantation_area_ha_custom > 0:
+        custom_frond_biomass = plantation_area_ha_custom * custom_frond_mt_per_ha
+        custom_trunk_biomass = plantation_area_ha_custom * custom_trunk_mt_per_ha
+        
+        st.write(f"### Custom Biomass Produced from Plantation Area of {plantation_area_ha_custom} ha:")
+        st.write(f"**Oil Palm Frond (OPF):** {custom_frond_biomass: ,.2f} MT")
+        st.write(f"**Oil Palm Trunk (OPT):** {custom_trunk_biomass: ,.2f} MT")
+
+        # Show comparison with default values
+        st.write("#### Comparison with Default Calculations:")
+        default_frond_biomass = plantation_area_ha_custom * DEFAULT_FROND_MT_PER_HA
+        default_trunk_biomass = plantation_area_ha_custom * DEFAULT_TRUNK_MT_PER_HA
+        
+        frond_diff = ((custom_frond_biomass - default_frond_biomass) / default_frond_biomass) * 100
+        trunk_diff = ((custom_trunk_biomass - default_trunk_biomass) / default_trunk_biomass) * 100
+        
+        st.write(f"**OPF Difference:** {frond_diff:+.1f}% from default")
+        st.write(f"**OPT Difference:** {trunk_diff:+.1f}% from default")
 
 # Original footer content and sidebar remain the same...
 
