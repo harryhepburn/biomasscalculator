@@ -75,10 +75,8 @@ with tab2:
         custom_ratios[biomass_type] = custom_percentage / 100
         total_percentage += custom_percentage
 
-    # Display total percentage and warning if not 100%
-    st.write(f"**Total Percentage: {total_percentage:.1f}%**")
-    if abs(total_percentage - 100) > 0.1:  # Allow for small floating-point differences
-        st.warning("⚠️ The total percentage should be 100%")
+    
+    
     
     # User input for FFB in MT (Custom tab)
     ffb_mt_custom = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', 
