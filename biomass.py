@@ -98,9 +98,9 @@ with tab2:
             total_percentage += custom_percentage
 
         # Display total percentage and warning if not 100%
-        st.write(f"**Total Percentage: {total_percentage:.1f}%**")
-        if abs(total_percentage - 100) > 0.1:  # Allow for small floating-point differences
-            st.warning("⚠️ The total percentage should be 100%")
+        #st.write(f"**Total Percentage: {total_percentage:.1f}%**")
+        #if abs(total_percentage - 100) > 0.1:  # Allow for small floating-point differences
+        #    st.warning("⚠️ The total percentage should be 100%")
 
     with col2:
         # Show the default values for reference
