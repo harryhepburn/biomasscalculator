@@ -6,7 +6,8 @@ DEFAULT_BIOMASS_RATIOS = {
     'Palm Kernel Shell (PKS)': 0.055,     # 5.5% of FFB
     'Mesocarp Fibre': 0.144,              # 14.4% of FFB
     'Decanter Cake': 0.035,               # 3.5% of FFB
-    'Palm Oil Mill Effluent (POME)': 0.583 # 58.3% of FFB
+    'Palm Oil Mill Effluent (POME)': 0.583, # 58.3% of FFB
+    'Sludge Palm Oil (SPO)': 0.01,        #1.0% of FFB
 }
 
 # Constants for frond and trunk production
