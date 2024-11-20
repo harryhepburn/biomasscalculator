@@ -72,7 +72,7 @@ with tab1:
 with tab2:
     st.markdown("""
     ### Customize biomass generation ratios
-    Enter your own ratios for each biomass component (as percentages). The total should sum to 100%.
+    Enter your own ratios for each biomass component (as percentages).
     """)
 
     # Create columns for better layout
