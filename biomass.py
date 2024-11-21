@@ -94,9 +94,9 @@ with tab1:
     st.markdown("### Biomass Estimation Using Standard Ratios")
     
     # Create columns for input and default ratios
-    col1, col2 = st.columns([2, 1])
+    #col1, col2 = st.columns([2, 1])
     
-    with col1:
+    #with col1:
         ffb_mt_default = st.number_input(
             'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
             min_value=0.0, 
@@ -105,7 +105,7 @@ with tab1:
             help="Amount of Fresh Fruit Bunches processed"
         )
     
-    with col2:
+    #with col2:
         st.markdown("#### Default Biomass Ratios")
         for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
             st.metric(label=biomass_type, value=f"{ratio*100:.1f}%")
@@ -203,6 +203,14 @@ with tab2:
             height=500
         )
         st.plotly_chart(fig_custom, use_container_width=True)
+
+        # Detailed Results
+        st.markdown("### Detailed Biomass Breakdown")
+        cols = st.columns(len(biomass_results))
+        for i, (biomass_type, biomass_amount) in enumerate(biomass_results.items()):
+            with cols[i]:
+                st.markdown(f"<div class='metric-card'><h4>{biomass_type}</h4><p>{biomass_amount:,.2f} MT</p></div>", unsafe_allow_html=True)
+
 
 with tab3:
     st.markdown("### Plantation Biomass Insights")
