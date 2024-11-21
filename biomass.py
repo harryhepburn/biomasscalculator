@@ -107,7 +107,7 @@ with tab1:
     
     #with col2:
     st.markdown("#### Default Biomass Ratios")
-        cols = st.columns(len(DEFAULT_BIOMASS_RATIOS.item))
+    cols = st.columns(len(DEFAULT_BIOMASS_RATIOS.item))
         for i, (biomass_type, biomass_amount) in enumerate(DEFAULT_BIOMASS_RATIOS.item()):
             with cols[i]:
                 st.markdown(f"<div class='metric-card'><h4>{biomass_type}</h4><p>{biomass_amount:,.2f} MT</p></div>", unsafe_allow_html=True)
