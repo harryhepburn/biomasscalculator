@@ -77,6 +77,41 @@ def display_biomass_ratios(biomass_ratios):
     """
     st.markdown("#### Biomass Ratios Breakdown")
     
+    # Ensure CSS is loaded before the content
+    st.markdown("""
+    <style>
+    .ratio-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: center;
+    }
+    .ratio-card {
+        background-color: white;
+        border: 1px solid #e0e0e0;
+        border-radius: 10px;
+        padding: 15px;
+        text-align: center;
+        width: 200px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    .ratio-card:hover {
+        transform: scale(1.05);
+        background-color: #f0f8ff;
+    }
+    .ratio-card h4 {
+        margin-bottom: 5px;
+        color: #007bff;
+    }
+    .ratio-card p {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #495057;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+    
     ratio_html = "<div class='ratio-grid'>"
     for biomass_type, ratio in biomass_ratios.items():
         ratio_html += f"""
