@@ -204,7 +204,75 @@ with tab2:
         )
         st.plotly_chart(fig_custom, use_container_width=True)
 
-# Rest of the code remains the same as in the previous version...
+with tab3:
+    st.markdown("### Plantation Biomass Insights")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### Frond Biomass")
+        custom_frond_mt_per_ha = st.number_input(
+            'Oil Palm Frond (OPF) production (MT/ha/year):',
+            min_value=0.0,
+            value=DEFAULT_FROND_MT_PER_HA,
+            step=0.01,
+            help=f"Default value is {DEFAULT_FROND_MT_PER_HA} MT/ha/year"
+        )
+    
+    with col2:
+        st.markdown("#### Trunk Biomass")
+        custom_trunk_mt_per_ha = st.number_input(
+            'Oil Palm Trunk (OPT) production (MT/ha/year):',
+            min_value=0.0,
+            value=DEFAULT_TRUNK_MT_PER_HA,
+            step=0.01,
+            help=f"Default value is {DEFAULT_TRUNK_MT_PER_HA} MT/ha/year"
+        )
+    
+    plantation_area_ha = st.number_input(
+        'Plantation area (hectares):',
+        min_value=0.0,
+        value=100.0,
+        key='area_insights'
+    )
+    
+    if plantation_area_ha > 0:
+        custom_frond_biomass = plantation_area_ha * custom_frond_mt_per_ha
+        custom_trunk_biomass = plantation_area_ha * custom_trunk_mt_per_ha
+        
+        # Comparison Bar Chart
+        df_comparison = pd.DataFrame({
+            'Biomass Type': ['Oil Palm Frond (OPF)', 'Oil Palm Trunk (OPT)'],
+            'Default Biomass (MT)': [
+                plantation_area_ha * DEFAULT_FROND_MT_PER_HA, 
+                plantation_area_ha * DEFAULT_TRUNK_MT_PER_HA
+            ],
+            'Custom Biomass (MT)': [custom_frond_biomass, custom_trunk_biomass]
+        })
+        
+        fig_comparison = go.Figure(data=[
+            go.Bar(name='Default', x=df_comparison['Biomass Type'], y=df_comparison['Default Biomass (MT)'], marker_color='blue'),
+            go.Bar(name='Custom', x=df_comparison['Biomass Type'], y=df_comparison['Custom Biomass (MT)'], marker_color='green')
+        ])
+        fig_comparison.update_layout(
+            title='Frond and Trunk Biomass Comparison',
+            xaxis_title='Biomass Type',
+            yaxis_title='Biomass (MT)'
+        )
+        
+        st.plotly_chart(fig_comparison, use_container_width=True)
+        
+        # Percentage Difference Calculation
+        frond_diff = ((custom_frond_biomass - (plantation_area_ha * DEFAULT_FROND_MT_PER_HA)) / (plantation_area_ha * DEFAULT_FROND_MT_PER_HA)) * 100
+        trunk_diff = ((custom_trunk_biomass - (plantation_area_ha * DEFAULT_TRUNK_MT_PER_HA)) / (plantation_area_ha * DEFAULT_TRUNK_MT_PER_HA)) * 100
+        
+        st.markdown("### Biomass Insights")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("OPF Difference", f"{frond_diff:+.1f}%")
+        with col2:
+            st.metric("OPT Difference", f"{trunk_diff:+.1f}%")
+            
 
 # Final sections about references, developer info, etc.
 st.write("---")
