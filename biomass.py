@@ -140,7 +140,7 @@ with tab1:
         cols = st.columns(len(biomass_results))
         for i, (biomass_type, biomass_amount) in enumerate(biomass_results.items()):
             with cols[i]:
-                st.markdown(f"<div class='metric-card'><h4>{biomass_type}</h4><p>{biomass_amount:.2f} MT</p></div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='metric-card'><h4>{biomass_type}</h4><p>{biomass_amount:,.2f} MT</p></div>", unsafe_allow_html=True)
 
 with tab2:
     st.markdown("### Customize Biomass Generation Ratios")
@@ -196,7 +196,7 @@ with tab2:
             color='Biomass Type',
             text_auto=True
         )
-        fig_custom.update_traces(texttemplate='%{y:.2f} MT', textposition='outside')
+        fig_custom.update_traces(texttemplate='%{y:,.2f} MT', textposition='outside')
         fig_custom.update_layout(
             xaxis_title='Biomass Type',
             yaxis_title='Quantity (MT)',
