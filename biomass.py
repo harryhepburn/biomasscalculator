@@ -1,4 +1,7 @@
 import streamlit as st
+import plotly.express as px
+import plotly.graph_objs as go
+import pandas as pd
 
 # Default biomass generation ratios (in percentage of FFB weight)
 DEFAULT_BIOMASS_RATIOS = {
@@ -7,7 +10,7 @@ DEFAULT_BIOMASS_RATIOS = {
     'Mesocarp Fibre': 0.144,              # 14.4% of FFB
     'Decanter Cake': 0.035,               # 3.5% of FFB
     'Palm Oil Mill Effluent (POME)': 0.583, # 58.3% of FFB
-    'Sludge Palm Oil (SPO)': 0.01,        #1.0% of FFB
+    'Sludge Palm Oil (SPO)': 0.01,        # 1.0% of FFB
 }
 
 # Constants for frond and trunk production
@@ -21,118 +24,185 @@ def calculate_biomass(ffb_mt, biomass_ratios):
         biomass[biomass_type] = ffb_mt * ratio
     return biomass
 
-# Streamlit App UI
-st.set_page_config(page_title="Biomass Calculator", page_icon="🌴", layout="wide")
-st.title("Palm Oil Biomass Calculator")
+# Enhanced Streamlit App UI
+st.set_page_config(
+    page_title="Palm Biomass Calculator", 
+    page_icon="🌴", 
+    layout="wide",
+    initial_sidebar_state="expanded"
+)
 
-# Add a tab selection at the top
-tab1, tab2 = st.tabs(["Default Ratios", "Custom Ratios"])
+# Custom CSS for improved styling
+st.markdown("""
+<style>
+    .stApp {
+        background-color: #f0f2f6;
+    }
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 10px;
+    }
+    .stTabs [data-baseweb="tab"] {
+        padding: 10px 15px;
+        background-color: #ffffff;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        transition: all 0.3s ease;
+    }
+    .stTabs [data-baseweb="tab"]:hover {
+        background-color: #e6f2ff;
+    }
+    .stTabs [data-baseweb="tab"][aria-selected="true"] {
+        background-color: #007bff;
+        color: white;
+    }
+    .metric-card {
+        background-color: white;
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s ease;
+    }
+    .metric-card:hover {
+        transform: scale(1.05);
+    }
+</style>
+""", unsafe_allow_html=True)
+
+# Main Title with Subtitle
+st.title("🌴 Palm Oil Biomass Calculator")
+st.markdown("### Sustainable Biomass Estimation for Palm Oil Production")
+
+# Sidebar with Detailed Information
+st.sidebar.image("https://via.placeholder.com/250x150.png?text=Palm+Oil+Biomass", use_column_width=True)
+st.sidebar.title("About the Calculator")
+st.sidebar.info("""
+This advanced tool helps you:
+- Estimate biomass from Fresh Fruit Bunches (FFB)
+- Customize biomass generation ratios
+- Calculate plantation-level biomass production
+- Visualize biomass distribution
+""")
+
+# Add tabs for different calculation methods
+tab1, tab2, tab3 = st.tabs([
+    "🔢 Default Ratios", 
+    "🛠️ Custom Ratios", 
+    "📊 Biomass Insights"
+])
 
 with tab1:
-    st.markdown("""
-    ### Estimate the amount of biomass generated using default ratios
-    Enter the amount of FFB in metric tons (MT) and the app will calculate the projected biomass output using standard ratios.
-    """)
-
-    # Display default ratios
-    st.write("**Default Biomass Ratios:**")
-    for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
-        st.write(f"- {biomass_type}: {ratio*100:.1f}%")
-
-    # User input for FFB in MT (Default tab)
-    ffb_mt_default = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', 
-                                    min_value=0.0, value=100.0, key='ffb_default')
-
-    # Biomass calculation with default ratios
+    st.markdown("### Biomass Estimation Using Standard Ratios")
+    
+    # Create columns for input and default ratios
+    col1, col2 = st.columns([2, 1])
+    
+    with col1:
+        ffb_mt_default = st.number_input(
+            'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
+            min_value=0.0, 
+            value=100.0, 
+            key='ffb_default',
+            help="Amount of Fresh Fruit Bunches processed"
+        )
+    
+    with col2:
+        st.markdown("#### Default Biomass Ratios")
+        for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
+            st.metric(label=biomass_type, value=f"{ratio*100:.1f}%")
+    
+    # Biomass calculation and visualization
     if ffb_mt_default > 0:
-        st.write(f"### Biomass Generated for {ffb_mt_default} MT of FFB:")
         biomass_results = calculate_biomass(ffb_mt_default, DEFAULT_BIOMASS_RATIOS)
         
-        # Display results
-        for biomass_type, biomass_amount in biomass_results.items():
-            st.write(f"**{biomass_type}:** {biomass_amount: ,.2f} MT")
-
-    # Default plantation area calculation
-    st.markdown("""
-    ---
-    ### Estimate Biomass from Plantation Area
-    Enter the plantation area in hectares to estimate the amount of frond and trunk biomass produced.
-    """)
-
-    plantation_area_ha_default = st.number_input('Enter the plantation area in hectares (ha):', 
-                                               min_value=0.0, value=100.0, key='area_default')
-
-    if plantation_area_ha_default > 0:
-        frond_biomass = plantation_area_ha_default * DEFAULT_FROND_MT_PER_HA
-        trunk_biomass = plantation_area_ha_default * DEFAULT_TRUNK_MT_PER_HA
+        # Plotly Pie Chart
+        df_biomass = pd.DataFrame.from_dict(biomass_results, orient='index', columns=['Quantity'])
+        df_biomass.index.name = 'Biomass Type'
+        df_biomass = df_biomass.reset_index()
         
-        st.write(f"### Biomass Produced from Plantation Area of {plantation_area_ha_default} ha:")
-        st.write(f"**Oil Palm Frond (OPF):** {frond_biomass: ,.2f} MT")
-        st.write(f"**Oil Palm Trunk (OPT):** {trunk_biomass: ,.2f} MT")
+        fig = px.pie(
+            df_biomass, 
+            values='Quantity', 
+            names='Biomass Type', 
+            title=f'Biomass Distribution for {ffb_mt_default} MT of FFB',
+            hole=0.3
+        )
+        st.plotly_chart(fig, use_container_width=True)
+        
+        # Detailed Results
+        st.markdown("### Detailed Biomass Breakdown")
+        cols = st.columns(len(biomass_results))
+        for i, (biomass_type, biomass_amount) in enumerate(biomass_results.items()):
+            with cols[i]:
+                st.markdown(f"<div class='metric-card'><h4>{biomass_type}</h4><p>{biomass_amount:.2f} MT</p></div>", unsafe_allow_html=True)
 
 with tab2:
-    st.markdown("""
-    ### Customize biomass generation ratios
-    Enter your own ratios for each biomass component (as percentages).
-    """)
-
-    # Create columns for better layout
+    st.markdown("### Customize Biomass Generation Ratios")
+    
+    # Custom Ratio Inputs
     col1, col2 = st.columns([2, 1])
-
+    
     with col1:
-        # Create a dictionary to store custom ratios
         custom_ratios = {}
         total_percentage = 0
-
-        # Input fields for custom ratios
+        
         for biomass_type in DEFAULT_BIOMASS_RATIOS.keys():
             default_percentage = DEFAULT_BIOMASS_RATIOS[biomass_type] * 100
-            custom_percentage = st.number_input(
+            custom_percentage = st.slider(
                 f"{biomass_type} (%)", 
                 min_value=0.0, 
                 max_value=100.0, 
                 value=default_percentage,
                 step=0.1,
-                key=f"custom_{biomass_type}"
+                help=f"Adjust the percentage for {biomass_type}"
             )
             custom_ratios[biomass_type] = custom_percentage / 100
             total_percentage += custom_percentage
-
-        # Display total percentage and warning if not 100%
-        #st.write(f"**Total Percentage: {total_percentage:.1f}%**")
-        #if abs(total_percentage - 100) > 0.1:  # Allow for small floating-point differences
-        #    st.warning("⚠️ The total percentage should be 100%")
-
-    with col2:
-        # Show the default values for reference
-        st.write("**Default Values (for reference):**")
-        for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
-            st.write(f"- {biomass_type}: {ratio*100:.1f}%")
-    
-    # User input for FFB in MT (Custom tab)
-    ffb_mt_custom = st.number_input('Enter the amount of Fresh Fruit Bunches (FFB) in Metric Tons (MT):', 
-                                   min_value=0.0, value=100.0, key='ffb_custom')
-
-    # Biomass calculation with custom ratios
-    if ffb_mt_custom > 0:
-        st.write(f"### Biomass Generated for {ffb_mt_custom} MT of FFB:")
-        biomass_results = calculate_biomass(ffb_mt_custom, custom_ratios)
         
-        # Display results
-        for biomass_type, biomass_amount in biomass_results.items():
-            st.write(f"**{biomass_type}:** {biomass_amount: ,.2f} MT")
+        # Total Percentage Validation
+        st.markdown(f"**Total Percentage: {total_percentage:.1f}%**")
+        if abs(total_percentage - 100) > 0.1:
+            st.warning("⚠️ The total percentage should be as close to 100% as possible")
+    
+    with col2:
+        st.markdown("#### Ratio Guidelines")
+        st.info("""
+        - Adjust sliders to customize
+        - Keep total near 100%
+        - Use regional or specific mill data
+        """)
+    
+    # FFB Input and Calculation
+    ffb_mt_custom = st.number_input(
+        'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
+        min_value=0.0, 
+        value=100.0, 
+        key='ffb_custom'
+    )
+    
+    if ffb_mt_custom > 0:
+        biomass_results_custom = calculate_biomass(ffb_mt_custom, custom_ratios)
+        
+        # Plotly Pie Chart for Custom Ratios
+        df_biomass_custom = pd.DataFrame.from_dict(biomass_results_custom, orient='index', columns=['Quantity'])
+        df_biomass_custom.index.name = 'Biomass Type'
+        df_biomass_custom = df_biomass_custom.reset_index()
+        
+        fig_custom = px.pie(
+            df_biomass_custom, 
+            values='Quantity', 
+            names='Biomass Type', 
+            title=f'Custom Biomass Distribution for {ffb_mt_custom} MT of FFB',
+            hole=0.3
+        )
+        st.plotly_chart(fig_custom, use_container_width=True)
 
-    # Custom plantation area calculation
-    st.markdown("""
-    ---
-    ### Customize Plantation Biomass Estimates
-    Enter your own values for frond and trunk biomass production per hectare.
-    """)
-
-    # Create columns for custom plantation inputs
-    col3, col4 = st.columns(2)
-
-    with col3:
+with tab3:
+    st.markdown("### Plantation Biomass Insights")
+    
+    col1, col2 = st.columns(2)
+    
+    with col1:
+        st.markdown("#### Frond Biomass")
         custom_frond_mt_per_ha = st.number_input(
             'Oil Palm Frond (OPF) production (MT/ha/year):',
             min_value=0.0,
@@ -140,7 +210,9 @@ with tab2:
             step=0.01,
             help=f"Default value is {DEFAULT_FROND_MT_PER_HA} MT/ha/year"
         )
-
+    
+    with col2:
+        st.markdown("#### Trunk Biomass")
         custom_trunk_mt_per_ha = st.number_input(
             'Oil Palm Trunk (OPT) production (MT/ha/year):',
             min_value=0.0,
@@ -148,65 +220,69 @@ with tab2:
             step=0.01,
             help=f"Default value is {DEFAULT_TRUNK_MT_PER_HA} MT/ha/year"
         )
-
-    with col4:
-        plantation_area_ha_custom = st.number_input(
-            'Plantation area (ha):',
-            min_value=0.0,
-            value=100.0,
-            key='area_custom'
+    
+    plantation_area_ha = st.number_input(
+        'Plantation area (hectares):',
+        min_value=0.0,
+        value=100.0,
+        key='area_insights'
+    )
+    
+    if plantation_area_ha > 0:
+        custom_frond_biomass = plantation_area_ha * custom_frond_mt_per_ha
+        custom_trunk_biomass = plantation_area_ha * custom_trunk_mt_per_ha
+        
+        # Comparison Bar Chart
+        df_comparison = pd.DataFrame({
+            'Biomass Type': ['Oil Palm Frond (OPF)', 'Oil Palm Trunk (OPT)'],
+            'Default Biomass (MT)': [
+                plantation_area_ha * DEFAULT_FROND_MT_PER_HA, 
+                plantation_area_ha * DEFAULT_TRUNK_MT_PER_HA
+            ],
+            'Custom Biomass (MT)': [custom_frond_biomass, custom_trunk_biomass]
+        })
+        
+        fig_comparison = go.Figure(data=[
+            go.Bar(name='Default', x=df_comparison['Biomass Type'], y=df_comparison['Default Biomass (MT)'], marker_color='blue'),
+            go.Bar(name='Custom', x=df_comparison['Biomass Type'], y=df_comparison['Custom Biomass (MT)'], marker_color='green')
+        ])
+        fig_comparison.update_layout(
+            title='Frond and Trunk Biomass Comparison',
+            xaxis_title='Biomass Type',
+            yaxis_title='Biomass (MT)'
         )
-
-    if plantation_area_ha_custom > 0:
-        custom_frond_biomass = plantation_area_ha_custom * custom_frond_mt_per_ha
-        custom_trunk_biomass = plantation_area_ha_custom * custom_trunk_mt_per_ha
         
-        st.write(f"### Custom Biomass Produced from Plantation Area of {plantation_area_ha_custom} ha:")
-        st.write(f"**Oil Palm Frond (OPF):** {custom_frond_biomass: ,.2f} MT")
-        st.write(f"**Oil Palm Trunk (OPT):** {custom_trunk_biomass: ,.2f} MT")
-
-        # Show comparison with default values
-        st.write("#### Comparison with Default Calculations:")
-        default_frond_biomass = plantation_area_ha_custom * DEFAULT_FROND_MT_PER_HA
-        default_trunk_biomass = plantation_area_ha_custom * DEFAULT_TRUNK_MT_PER_HA
+        st.plotly_chart(fig_comparison, use_container_width=True)
         
-        frond_diff = ((custom_frond_biomass - default_frond_biomass) / default_frond_biomass) * 100
-        trunk_diff = ((custom_trunk_biomass - default_trunk_biomass) / default_trunk_biomass) * 100
+        # Percentage Difference Calculation
+        frond_diff = ((custom_frond_biomass - (plantation_area_ha * DEFAULT_FROND_MT_PER_HA)) / (plantation_area_ha * DEFAULT_FROND_MT_PER_HA)) * 100
+        trunk_diff = ((custom_trunk_biomass - (plantation_area_ha * DEFAULT_TRUNK_MT_PER_HA)) / (plantation_area_ha * DEFAULT_TRUNK_MT_PER_HA)) * 100
         
-        st.write(f"**OPF Difference:** {frond_diff:+.1f}% from default")
-        st.write(f"**OPT Difference:** {trunk_diff:+.1f}% from default")
+        st.markdown("### Biomass Insights")
+        col1, col2 = st.columns(2)
+        with col1:
+            st.metric("OPF Difference", f"{frond_diff:+.1f}%")
+        with col2:
+            st.metric("OPT Difference", f"{trunk_diff:+.1f}%")
 
-# Original footer content and sidebar remain the same...
-
-st.write("---")
-st.markdown("""
-**Biomass Components**:
-- **Empty Fruit Bunches (EFB):** Residual bunches after oil extraction.
-- **Palm Kernel Shell (PKS):** Shell fragments from palm kernels.
-- **Mesocarp Fibre:** Fibrous residue from the palm fruit.
-- **Decanter Cake:** Solid waste produced from the three phase separation step of crude palm oil process.
-- **Palm Oil Mill Effluent (POME):** Liquid waste by-product from palm oil mills.
-- **Sludge palm oil (SPO):** Liquid waste by-product from palm oil mills process that contains high levels of oil, dirt, and impurities.
-- **Oil Palm Frond (OPF):** The leaves of the palm, often used as animal feed or compost.
-- **Oil Palm Trunk (OPT):** The trunk of the palm, commonly used as a source of biomass for energy or as a raw material in wood-based industries.
-""")
-
+# Footer with References
 st.write("---")
 st.markdown("""
 **References**:
-- Cheah, W. Y., Siti-Dina, R. P., Leng, S. T. K., Er, A. C., & Show, P. L. (2023). Circular bioeconomy in palm oil industry: Current practices and future perspectives. Environmental Technology & Innovation, 30, 103050. https://doi.org/10.1016/j.eti.2023.103050
-- Abioye, K. J., Harun, N. Y., Umar, H. A., & Kolawole, A. H. (2023). Study of Physicochemical Properties of Palm Oil Decanter Cake for Potential Syngas Generation. Chemical Engineering Transactions, 99, 709–714. https://doi.org/10.3303/CET2399119
+1. Cheah et al. (2023). Circular bioeconomy in palm oil industry.
+2. Abioye et al. (2023). Physicochemical Properties of Palm Oil Decanter Cake.
 """)
 
-st.write("---")
-st.markdown("""
-
-**Developed by**:
-Mohd Rafizan Samian, Jabatan Perancangan Strategi dan Transformasi, FELDA
-""")
-
-# Optional Footer Information
-st.sidebar.title("About the App")
+# Sidebar Additional Information
+st.sidebar.markdown("### Biomass Components")
 st.sidebar.info("""
-This app calculates the potential biomass produced from processing palm oil fresh fruit bunches (FFB) and estimates the additional biomass generated from oil palm fronds (OPF) and trunks (OPT) based on plantation area in hectares. Biomass by-products, such as Empty Fruit Bunches (EFB), Palm Kernel Shell (PKS), Mesocarp Fibre, Palm Oil Mill Effluent (POME), as well as OPF and OPT, play crucial roles in a circular economy. They contribute to sustainable energy production, soil enrichment, animal feed, and even wood-based materials, maximizing resource use and minimizing waste in the palm oil industry.
+- **EFB:** Residual bunches after oil extraction
+- **PKS:** Shell fragments from palm kernels
+- **Mesocarp Fibre:** Fibrous residue 
+- **Decanter Cake:** Solid waste from oil separation
+- **POME:** Liquid mill waste
+- **SPO:** Oil-rich liquid waste
 """)
+
+st.sidebar.markdown("### Developer")
+st.sidebar.info("Mohd Rafizan Samian\nFELDA Strategic Planning")
