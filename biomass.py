@@ -70,59 +70,26 @@ def create_custom_css():
 
 def display_biomass_ratios(biomass_ratios):
     """
-    Display biomass ratios in a custom grid format.
+    Display biomass ratios using Streamlit columns for better responsiveness.
     
     Args:
         biomass_ratios (dict): Dictionary of biomass ratios
     """
     st.markdown("#### Biomass Ratios Breakdown")
     
-    # Ensure CSS is loaded before the content
-    st.markdown("""
-    <style>
-    .ratio-grid {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        justify-content: center;
-    }
-    .ratio-card {
-        background-color: white;
-        border: 1px solid #e0e0e0;
-        border-radius: 10px;
-        padding: 15px;
-        text-align: center;
-        width: 200px;
-        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        transition: transform 0.3s ease;
-    }
-    .ratio-card:hover {
-        transform: scale(1.05);
-        background-color: #f0f8ff;
-    }
-    .ratio-card h4 {
-        margin-bottom: 5px;
-        color: #007bff;
-    }
-    .ratio-card p {
-        font-size: 1.2em;
-        font-weight: bold;
-        color: #495057;
-    }
-    </style>
-    """, unsafe_allow_html=True)
+    # Create columns to display ratios
+    cols = st.columns(3)  # 3 columns to match the grid-like layout
     
-    ratio_html = "<div class='ratio-grid'>"
-    for biomass_type, ratio in biomass_ratios.items():
-        ratio_html += f"""
-        <div class='ratio-card'>
-            <h4>{biomass_type}</h4>
-            <p>{ratio*100:.1f}%</p>
-        </div>
-        """
-    ratio_html += "</div>"
-    
-    st.markdown(ratio_html, unsafe_allow_html=True)
+    # Iterate through biomass ratios
+    for i, (biomass_type, ratio) in enumerate(biomass_ratios.items()):
+        # Use modulo to wrap around columns
+        col = cols[i % 3]
+        
+        with col:
+            # Use a container to simulate card-like appearance
+            with st.container():
+                st.markdown(f"##### {biomass_type}")
+                st.metric(label="Percentage", value=f"{ratio*100:.1f}%")
 
 def create_biomass_bar_chart(biomass_results, title):
     """
