@@ -97,18 +97,18 @@ with tab1:
     #col1, col2 = st.columns([2, 1])
     
     #with col1:
-        ffb_mt_default = st.number_input(
-            'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
-            min_value=0.0, 
-            value=100.0, 
-            key='ffb_default',
-            help="Amount of Fresh Fruit Bunches processed"
-        )
+    ffb_mt_default = st.number_input(
+        'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
+        min_value=0.0, 
+        value=100.0, 
+        key='ffb_default',
+        help="Amount of Fresh Fruit Bunches processed"
+    )
     
     #with col2:
-        st.markdown("#### Default Biomass Ratios")
-        for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
-            st.metric(label=biomass_type, value=f"{ratio*100:.1f}%")
+    st.markdown("#### Default Biomass Ratios")
+    for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
+        st.metric(label=biomass_type, value=f"{ratio*100:.1f}%")
     
     # Biomass calculation and visualization
     if ffb_mt_default > 0:
