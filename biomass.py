@@ -206,8 +206,8 @@ with tab2:
 
         # Detailed Results
         st.markdown("### Detailed Biomass Breakdown")
-        cols = st.columns(len(biomass_results))
-        for i, (biomass_type, biomass_amount) in enumerate(biomass_results.items()):
+        cols = st.columns(len(biomass_results_custom))
+        for i, (biomass_type, biomass_amount) in enumerate(biomass_results_custom.items()):
             with cols[i]:
                 st.markdown(f"<div class='metric-card'><h4>{biomass_type}</h4><p>{biomass_amount:,.2f} MT</p></div>", unsafe_allow_html=True)
 
