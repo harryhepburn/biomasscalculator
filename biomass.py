@@ -160,19 +160,16 @@ def main():
     with tab1:
         st.markdown("### Biomass Estimation Using Standard Ratios")
         
-        col1, col2 = st.columns([2, 1])
+             
+        ffb_mt_default = st.number_input(
+            'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
+             min_value=0.0, 
+             value=100.0, 
+             key='ffb_default',
+             help="Amount of Fresh Fruit Bunches processed"
+        )
         
-        with col1:
-            ffb_mt_default = st.number_input(
-                'Enter Fresh Fruit Bunches (FFB) in Metric Tons:', 
-                min_value=0.0, 
-                value=100.0, 
-                key='ffb_default',
-                help="Amount of Fresh Fruit Bunches processed"
-            )
-        
-        with col2:
-            display_biomass_ratios(DEFAULT_BIOMASS_RATIOS)
+        display_biomass_ratios(DEFAULT_BIOMASS_RATIOS)
         
         if ffb_mt_default > 0:
             biomass_results = calculate_biomass(ffb_mt_default, DEFAULT_BIOMASS_RATIOS)
