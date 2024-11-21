@@ -107,8 +107,10 @@ with tab1:
     
     #with col2:
     st.markdown("#### Default Biomass Ratios")
+    st.info("""
     for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
         st.metric(label=biomass_type, value=f"{ratio*100:.1f}%")
+    """)
     
     # Biomass calculation and visualization
     if ffb_mt_default > 0:
