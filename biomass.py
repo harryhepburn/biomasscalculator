@@ -32,38 +32,34 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS for improved styling
+# Custom CSS for enhanced ratio display
 st.markdown("""
 <style>
-    .stApp {
-        background-color: #f0f2f6;
-    }
-    .stTabs [data-baseweb="tab-list"] {
+    .ratio-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
         gap: 10px;
     }
-    .stTabs [data-baseweb="tab"] {
-        padding: 10px 15px;
-        background-color: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-        transition: all 0.3s ease;
-    }
-    .stTabs [data-baseweb="tab"]:hover {
-        background-color: #e6f2ff;
-    }
-    .stTabs [data-baseweb="tab"][aria-selected="true"] {
-        background-color: #007bff;
-        color: white;
-    }
-    .metric-card {
+    .ratio-card {
         background-color: white;
         border-radius: 10px;
         padding: 15px;
+        text-align: center;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         transition: transform 0.3s ease;
     }
-    .metric-card:hover {
+    .ratio-card:hover {
         transform: scale(1.05);
+        background-color: #f0f8ff;
+    }
+    .ratio-card h4 {
+        margin-bottom: 5px;
+        color: #007bff;
+    }
+    .ratio-card p {
+        font-size: 1.2em;
+        font-weight: bold;
+        color: #495057;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -90,6 +86,23 @@ tab1, tab2, tab3 = st.tabs([
     "📊 Biomass Insights"
 ])
 
+def display_biomass_ratios(biomass_ratios):
+    st.markdown("#### Biomass Ratios Breakdown")
+    
+    # Create a custom grid of ratio cards
+    ratio_html = "<div class='ratio-grid'>"
+    for biomass_type, ratio in biomass_ratios.items():
+        ratio_html += f"""
+        <div class='ratio-card'>
+            <h4>{biomass_type}</h4>
+            <p>{ratio*100:.1f}%</p>
+        </div>
+        """
+    ratio_html += "</div>"
+    
+    st.markdown(ratio_html, unsafe_allow_html=True)
+
+# In the first tab, replace the existing ratio display with:
 with tab1:
     st.markdown("### Biomass Estimation Using Standard Ratios")
     
@@ -106,9 +119,8 @@ with tab1:
         )
     
     with col2:
-        st.markdown("#### Default Biomass Ratios")
-        for biomass_type, ratio in DEFAULT_BIOMASS_RATIOS.items():
-            st.metric(label=biomass_type, value=f"{ratio*100:.1f}%")
+        # Use the new display function
+        display_biomass_ratios(DEFAULT_BIOMASS_RATIOS)
     
     # Biomass calculation and visualization
     if ffb_mt_default > 0:
