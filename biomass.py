@@ -127,7 +127,7 @@ with tab1:
             color='Biomass Type',
             text_auto=True
         )
-        fig.update_traces(texttemplate='%{y:.2f} MT', textposition='outside')
+        fig.update_traces(texttemplate='%{y:,.2f} MT', textposition='outside')
         fig.update_layout(
             xaxis_title='Biomass Type',
             yaxis_title='Quantity (MT)',
